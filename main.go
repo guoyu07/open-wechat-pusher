@@ -98,12 +98,12 @@ func receiveMessage(queues []*QueueConfig, done <-chan struct{}) <-chan Message 
 
 func workMessage(in <-chan Message) <-chan Message {
 	var wg sync.WaitGroup
+	wechatPusher := &WechatPusher{}
 	out := make(chan Message, ChannelBufferLength)
 	client := newHttpClient(HttpMaxIdleConns, HttpMaxIdleConnsPerHost, HttpIdleConnTimeout)
 
 	worker := func(m Message, o chan<- Message) {
-		m.Printf("worker: received a msg, body: %s", string(m.amqpDelivery.Body))
-
+		wechatPusher.MsgHandler(m)
 		defer wg.Done()
 		m.Notify(client)
 		o <- m
@@ -221,9 +221,12 @@ func handleSignal(done chan<- struct{}) {
 
 func main() {
 	// parse command line args
-	configFileName := flag.String("c", "config/queues.example.yml", "config file path")
+	configFileName := flag.String("c", "config/queues.yml", "config file path")
 	logFileName := flag.String("log", "", "logging file, default STDOUT")
 	flag.Parse()
+
+	// setup CallBack
+	go callBack()
 
 	// write pid file
 	pidfile.Write()

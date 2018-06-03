@@ -1,0 +1,17 @@
+projects:
+  - name: haodian-wechat-pusher
+    queues_default:
+      notify_base: "http://localhost:8080"
+      notify_timeout: 5
+      retry_times: 40
+      retry_duration: 300
+      binding_exchange: haodian-wechat-pusher
+    queues:
+      - queue_name: "haodian.wechat.pusher.consumer"
+        notify_path: "/callback" 
+        routing_key:
+          - "haodian.wechat.pusher.consumer"
+      - queue_name: "haodian.wechat.pusher.consumer.status"
+        notify_path: "/callback" 
+        routing_key:
+          - "haodian.wechat.pusher.consumer.status"
