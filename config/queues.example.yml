@@ -5,13 +5,13 @@ projects:
       notify_timeout: 5
       retry_times: 40
       retry_duration: 300
-      binding_exchange: fishtrip
+      binding_exchange: haodian-wechat-pusher
     queues:
-      - queue_name: "processor"
+      - queue_name: "haodian.wechat.pusher.consumer"
         notify_path: "/test.html" 
         routing_key:
-          - "order.state.paid"
-      - queue_name: "wakasms.orders"
+          - "haodian.wechat.pusher.consumer"
+      - queue_name: "haodian.wechat.pusher.consumer.status"
         notify_path: "/test.html" 
         routing_key:
-          - "order.state.*"
+          - "haodian.wechat.pusher.consumer.status"
