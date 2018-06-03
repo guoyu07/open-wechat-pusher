@@ -1,6 +1,5 @@
-package: fishtrip.cn/watchman
+package: open-wechat-pusher
 import:
-- package: github.com/streadway/amqp
-- package: gopkg.in/yaml.v2
-- package: github.com/satori/go.uuid
+- package: github.com/fishtrip/watchman
+- package: github.com/julienschmidt/httprouter
   version: ^1.1.0
